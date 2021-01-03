@@ -13,59 +13,28 @@ int main() {
 	int t;
     cin>>t;
     while (t--) {
-        int n, maxi = 0;
+        int n, m;
         cin>>n;
-        vector <int> first(n,0);
-        for (int i=0;i<n;i++) {
-            cin>>first[i];
+        int utilPrev, utilCur;
+        cin>>utilPrev;
+        int maxiOne = max(0, utilPrev);
+        for (int i=1;i<n;i++) {
+            cin>>utilCur;
+            utilCur += utilPrev;
+            utilPrev = utilCur;
+            maxiOne = max(maxiOne, utilCur);   
         }
-        int m;
         cin>>m;
-        vector <int> sec(m,0);
-        for ( int i=0;i<m;i++) {
-            cin>>sec[i];
+        vector <int> sec(m, 0);
+        cin>>utilPrev;
+        int maxiTwo = max(0, utilPrev);
+        for (int i=1;i<m;i++) {
+            cin>>utilCur;
+            utilCur += utilPrev;
+            utilPrev = utilCur;
+            maxiTwo = max(maxiTwo, utilCur);
         }
-        int index1 = 0, index2 = 0;
-        vector <int> util;
-        while (index1<n && index2<m) {
-            if (first[index1]>0) {
-                if (first[index1]>sec[index2]) {
-                    util.push_back(first[index1]);
-                    index1++;
-                } else {
-                    util.push_back(sec[index2]);
-                    index2++;
-                }
-            } else if (sec[index2]>0) {
-                util.push_back(sec[index2]);
-                index2++;
-            }
-            else {
-                util.push_back(first[index1]);
-                index1++;
-            }
-            if (util.size()>1) {
-                util[util.size()-1] += util[util.size()-2];
-                maxi = max(maxi, util[util.size()-1]);
-            }
-        } 
-        while (index1<n) {
-            util.push_back(first[index1]);
-            index1++;
-            if (util.size()>1) {
-                util[util.size()-1] += util[util.size()-2];
-                maxi = max(maxi, util[util.size()-1]);
-            }
-        }
-        while (index2<m) {
-            util.push_back(sec[index2]);
-            index2++;
-            if (util.size()>1) {
-                util[util.size()-1] += util[util.size()-2];
-                maxi = max(maxi, util[util.size()-1]);
-            }
-        }
-        cout<<maxi<<endl;
+        cout<<maxiOne+maxiTwo<<endl;
     }
 	return 0;
 }
